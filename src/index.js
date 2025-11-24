@@ -1,4 +1,4 @@
-import { KEY_VISUAL_CROSSING } from "./my-data.js";
+import { KEY_VISUAL_CROSSING, UNIT_TEXT } from "./my-data.js";
 import "./styles.css";
 
 const input = document.querySelector("input");
@@ -32,6 +32,8 @@ function createWeatherObject(data) {
 }
 
 function createWeatherUI(obj) {
+  const unitText = UNIT_TEXT[getChosenUnit(tempUnitBtn)];
+
   const display = document.querySelector(".display-city");
   display.textContent = "";
 
@@ -45,7 +47,7 @@ function createWeatherUI(obj) {
   weatherContainer.append(city, temperature, conditions, description);
 
   city.textContent = capitalize(obj.address);
-  temperature.textContent = obj.temperature;
+  temperature.textContent = obj.temperature + " " + unitText;
   description.textContent = obj.description;
   conditions.textContent = obj.conditions;
 }
@@ -55,12 +57,12 @@ function displayError(error) {
   display.textContent = error;
 }
 
-async function getData(location = "Prague") {
+async function getData(location = "Prague", unit = "metric") {
   if (!location) {
     throw new Error("No location added");
   }
   const response = await fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/today?unitGroup=metric&key=${KEY_VISUAL_CROSSING}&contentType=json`
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/today?unitGroup=${unit}&key=${KEY_VISUAL_CROSSING}&contentType=json`
   );
   if (!response.ok) {
     throw new Error("Not a valid city");
@@ -72,7 +74,8 @@ async function getData(location = "Prague") {
 
 searchBtn.addEventListener("click", () => {
   const city = input.value;
-  getData(city)
+  const unit = getChosenUnit(tempUnitBtn);
+  getData(city, unit)
     .then(createWeatherObject)
     .then(createWeatherUI)
     .catch((error) => {
