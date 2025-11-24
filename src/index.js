@@ -1,4 +1,5 @@
 import { KEY_VISUAL_CROSSING } from "./my-data.js";
+import "./styles.css";
 
 const input = document.querySelector("input");
 const searchBtn = document.querySelector("button.search");
@@ -6,6 +7,17 @@ const tempUnitBtn = document.querySelector("button.temp-unit");
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function getChosenUnit(button) {
+  const units = Array.from(button.querySelectorAll("span"));
+  return units.find(unit => unit.classList.contains("chosen"));
+}
+
+function toggleUnit(button) {
+  const units = Array.from(button.querySelectorAll("span"));
+  units.forEach(unit => unit.classList.toggle("chosen"));
+  return getChosenUnit(button);
 }
 
 function createWeatherObject(data) {
@@ -67,4 +79,9 @@ searchBtn.addEventListener("click", () => {
       console.log(error.message);
       displayError(error.message);
     });
+});
+
+
+tempUnitBtn.addEventListener("click", e => {
+  toggleUnit(e.currentTarget);
 });
