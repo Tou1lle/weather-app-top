@@ -1,3 +1,17 @@
+:root {
+  --default-font: Arial, Helvetica, sans-serif;
+  --bg-img-stars: url("./assets/stars_top_project.jpg");
+  --color-white: #FFFFFF;
+}
+
+body {
+  font-family: var(--default-font);
+  color: var(--color-white);
+  background-image: var(--bg-img-stars);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .chosen {
   font-weight: bold;
 }
