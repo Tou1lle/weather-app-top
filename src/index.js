@@ -11,7 +11,7 @@ function capitalize(string) {
 
 function getChosenUnit(button) {
   const units = Array.from(button.querySelectorAll("span"));
-  return units.find(unit => unit.classList.contains("chosen"));
+  return units.find(unit => unit.classList.contains("chosen")).dataset.unit;
 }
 
 function toggleUnit(button) {
@@ -84,4 +84,5 @@ searchBtn.addEventListener("click", () => {
 
 tempUnitBtn.addEventListener("click", e => {
   toggleUnit(e.currentTarget);
+  console.log(getChosenUnit(e.currentTarget));
 });
